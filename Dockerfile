@@ -1,10 +1,11 @@
-# Copyright @ISmartCoder
-#  SmartUtilBot - Telegram Utility Bot for Smart Features Bot 
-#  Copyright (C) 2024-present Abir Arafat Chawdhury <https://github.com/abirxdhack> 
+FROM python:3.9-slim-bookworm
 
-FROM python:3.9-slim-buster
-
-RUN apt update && apt install -y git curl ffmpeg && apt clean
+RUN apt update && apt install -y \
+    git \
+    curl \
+    ffmpeg \
+    && apt clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
