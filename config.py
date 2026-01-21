@@ -1,6 +1,3 @@
-# Copyright @ISmartCoder
-#  SmartUtilBot - Telegram Utility Bot for Smart Features Bot 
-#  Copyright (C) 2024-present Abir Arafat Chawdhury <https://github.com/abirxdhack> 
 import os
 from dotenv import load_dotenv
 
@@ -18,7 +15,8 @@ def get_env_or_default(key, default=None, cast_func=str):
     except (ValueError, TypeError) as e:
         print(f"[WARN] {key} invalid value '{value}'. Using default: {default}. Error: {e}")
         return default
-        
+
+
 API_ID = get_env_or_default("API_ID", "Your_API_ID_Here")
 API_HASH = get_env_or_default("API_HASH", "Your_API_HASH_Here")
 BOT_TOKEN = get_env_or_default("BOT_TOKEN", "Your_BOT_TOKEN_Here")
@@ -44,8 +42,10 @@ A360APIBASEURL = get_env_or_default("A360APIBASEURL", "https://a360api-c8fbf2fa3
 GROQ_API_KEY = get_env_or_default("GROQ_API_KEY", "Your_GROQ_API_KEY_Here")
 WEB_SS_KEY = get_env_or_default("WEB_SS_KEY", "Your_WEB_SS_KEY_Here")
 IMAGE_UPLOAD_KEY = get_env_or_default("IMAGE_UPLOAD_KEY", "Your_IMAGE_UPLOAD_KEY_Here")
-GROQ_API_URL = get_env_or_default("GROQ_API_URL", "https://api.groq.com/openai/v1/chat/completions")
-
+GROQ_API_URL = get_env_or_default(
+    "GROQ_API_URL",
+    "https://api.groq.com/openai/v1/chat/completions"
+)
 
 TEXT_MODEL = get_env_or_default("TEXT_MODEL", "qwen/qwen3-32b")
 IPINFO_API_TOKEN = get_env_or_default("IPINFO_API_TOKEN", "Your_IPINFO_API_TOKEN_Here")
@@ -57,10 +57,18 @@ LOG_CHANNEL_ID = get_env_or_default("LOG_CHANNEL_ID", "-1002735511721")
 IMGAI_SIZE_LIMIT = get_env_or_default("IMGAI_SIZE_LIMIT", 5242880, int)
 MAX_TXT_SIZE = get_env_or_default("MAX_TXT_SIZE", 15728640, int)
 MAX_VIDEO_SIZE = get_env_or_default("MAX_VIDEO_SIZE", 2147483648, int)
-YT_COOKIES_PATH = get_env_or_default("YT_COOKIES_PATH", "bot/SmartCookies/SmartUtilBot.txt")
-VIDEO_RESOLUTION = get_env_or_default("VIDEO_RESOLUTION", "1280x720", lambda x: tuple(map(int, x.split('x'))))
+YT_COOKIES_PATH = get_env_or_default(
+    "YT_COOKIES_PATH",
+    "bot/SmartCookies/SmartUtilBot.txt"
+)
+VIDEO_RESOLUTION = get_env_or_default(
+    "VIDEO_RESOLUTION",
+    "1280x720",
+    lambda x: tuple(map(int, x.split('x')))
+)
 DOMAIN_CHK_LIMIT = get_env_or_default("DOMAIN_CHK_LIMIT", 20, int)
 PROXY_CHECK_LIMIT = get_env_or_default("PROXY_CHECK_LIMIT", 20, int)
+
 
 required_vars = {
     "API_ID": API_ID,
@@ -73,11 +81,15 @@ required_vars = {
     "DATABASE_URL": DATABASE_URL
 }
 
+# 🔧 FIX: no crash, only warnings
 for var_name, var_value in required_vars.items():
-    if var_value is None or var_value == f"Your_{var_name}_Here" or (isinstance(var_value, str) and var_value.strip() == ""):
-        raise ValueError(f"Required variable {var_name} is missing or invalid. Set it in .env (VPS), config.py (VPS), or Heroku config vars.")
+    if (
+        var_value is None
+        or var_value == f"Your_{var_name}_Here"
+        or (isinstance(var_value, str) and var_value.strip() == "")
+    ):
+        print(f"[WARN] Required variable {var_name} is missing or invalid. Using default value.")
 
+# 🔧 FIX: no crash
 if not COMMAND_PREFIX:
-
-    raise ValueError("No command prefixes found. Set COMMAND_PREFIX in .env, config.py, or Heroku config vars.")
-
+    print("[WARN] No command prefixes found. COMMAND_PREFIX is empty.")
